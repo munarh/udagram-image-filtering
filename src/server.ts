@@ -15,8 +15,8 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
   app.use(bodyParser.json());
 
   // RESTful Endpoint for Image Filtering
-  app.get("/filteredimage", async (req: Request, res: Response) => {
-    const image_url: string = req.query.image_url;
+  app.get("/filteredimage", async (req, res) => {
+    const image_url = req.query.image_url.tostring();
 
     // check if image_url is valid
     if (!image_url) {
@@ -27,7 +27,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
     }
 
     let filteredpath: string = await filterImageFromURL(image_url);
-    return res.sendFile(filteredpath, (err) => {
+    res.status(200).sendFile(filteredImage, () => {
       deleteLocalFiles([filteredpath]);
     });
   });
